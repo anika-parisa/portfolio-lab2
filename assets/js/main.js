@@ -226,4 +226,59 @@
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
+
+  /**
+ * CONTACT FORM HANDLING (LAB TASK)
+ */
+const contactForm = document.getElementById("contactForm");
+const formResult = document.getElementById("formResult");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent page reload
+    const formData = {
+      name: document.getElementById("name").value,
+      surname: document.getElementById("surname").value,
+      email: document.getElementById("email").value,
+      phone: document.getElementById("phone").value,
+      address: document.getElementById("address").value,
+      rating1: Number(document.getElementById("rating1").value),
+      rating2: Number(document.getElementById("rating2").value),
+      rating3: Number(document.getElementById("rating3").value)
+    };
+
+    console.log(formData);
+        formResult.innerHTML = `
+      <p><strong>Name:</strong> ${formData.name}</p>
+      <p><strong>Surname:</strong> ${formData.surname}</p>
+      <p><strong>Email:</strong> ${formData.email}</p>
+      <p><strong>Phone number:</strong> ${formData.phone}</p>
+      <p><strong>Address:</strong> ${formData.address}</p>
+    `;
+        const average =
+      (formData.rating1 + formData.rating2 + formData.rating3) / 3;
+
+    const roundedAverage = average.toFixed(1);
+        let avgColor = "red";
+
+    if (average >= 7) {
+      avgColor = "green";
+    } else if (average >= 4) {
+      avgColor = "orange";
+    }
+
+    formResult.innerHTML += `
+      <p>
+        <strong>${formData.name} ${formData.surname} average:</strong>
+        <span style="color:${avgColor}; font-weight:bold;">
+          ${roundedAverage}
+        </span>
+      </p>
+    `;
+        alert("Form submitted successfully!");
+    contactForm.reset();
+  });
+}
+
+
 })();
