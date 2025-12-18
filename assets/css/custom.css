@@ -1,0 +1,89 @@
+/* ========================================
+   LABORATORY WORK 10 - CUSTOM ANIMATIONS
+   ======================================== */
+
+/* Animation 1: Fade-in for sections */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section {
+  animation: fadeInUp 1.5s ease-out;
+}
+
+/* Animation 2: SHAKE effect for social links */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-8px) rotate(-8deg);
+  }
+  50% {
+    transform: translateX(8px) rotate(8deg);
+  }
+  75% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+}
+
+.header .social-links a,
+.hero .social-links a {
+  animation: shake 2.5s ease-in-out infinite;
+}
+
+.social-links a:hover {
+  animation: shake 0.4s ease-in-out infinite;
+}
+
+/* Animation 3: Button color shift */
+@keyframes colorShift {
+  0% {
+    background-color: #665643;
+  }
+  50% {
+    background-color: #8b7355;
+  }
+  100% {
+    background-color: #665643;
+  }
+}
+
+.btn-primary:hover {
+  animation: colorShift 2s ease-in-out infinite;
+}
+
+/* Preloader - already in main.css, just extending duration */
+#preloader {
+  animation: hidePreloader 3s forwards;
+}
+
+@keyframes hidePreloader {
+  0%, 90% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
