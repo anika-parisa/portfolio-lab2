@@ -26,11 +26,19 @@ let moves = 0;
 let matches = 0;
 let gameStarted = false;
 
+// Timer state (OPTIONAL TASK)
+let timerInterval = null;
+let seconds = 0;
+
 // DOM elements
 const gameBoard = document.getElementById("gameBoard");
 const movesEl = document.getElementById("moves");
 const matchesEl = document.getElementById("matches");
 const winMessage = document.getElementById("winMessage");
+const timerEl = document.getElementById("timer");
+const bestEasyEl = document.getElementById("bestEasy");
+const bestHardEl = document.getElementById("bestHard");
+
 const startBtn = document.getElementById("startGame");
 const restartBtn = document.getElementById("restartGame");
 const difficultySelect = document.getElementById("difficulty");
@@ -44,6 +52,60 @@ function shuffle(array) {
   }
   return shuffled;
 }
+
+/* ========================= */
+/* TIMER FUNCTIONS           */
+/* ========================= */
+
+function startTimer() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  timerEl.textContent = "00:00";
+
+  timerInterval = setInterval(() => {
+    seconds++;
+    timerEl.textContent = formatTime(seconds);
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+function formatTime(sec) {
+  const min = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${min.toString().padStart(2, "0")}:${s
+    .toString()
+    .padStart(2, "0")}`;
+}
+
+/* ========================= */
+/* BEST SCORE FUNCTIONS      */
+/* ========================= */
+
+function loadBestScores() {
+  const bestEasy = localStorage.getItem("best-easy");
+  const bestHard = localStorage.getItem("best-hard");
+
+  bestEasyEl.textContent = bestEasy ? bestEasy : "-";
+  bestHardEl.textContent = bestHard ? bestHard : "-";
+}
+
+function saveBestScore() {
+  const difficulty = difficultySelect.value;
+  const key = `best-${difficulty}`;
+  const best = localStorage.getItem(key);
+
+  if (!best || moves < best) {
+    localStorage.setItem(key, moves);
+    loadBestScores();
+  }
+}
+
+/* ========================= */
+/* GAME LOGIC (UNCHANGED)    */
+/* ========================= */
 
 // Initialize game
 function initGame() {
@@ -61,6 +123,9 @@ function initGame() {
   matchesEl.textContent = "0";
   winMessage.textContent = "";
 
+  // Start timer (OPTIONAL TASK)
+  startTimer();
+
   // Get difficulty
   const difficulty = difficultySelect.value;
   const { rows, cols } = difficultySettings[difficulty];
@@ -69,10 +134,10 @@ function initGame() {
   // Create card pairs
   const pairsNeeded = totalCards / 2;
   let gameCards = [];
-  
+
   for (let i = 0; i < pairsNeeded; i++) {
     const emoji = cardData[i % cardData.length];
-    gameCards.push(emoji, emoji); // Add pair
+    gameCards.push(emoji, emoji);
   }
 
   // Shuffle cards
@@ -160,29 +225,35 @@ function resetBoard() {
 // Check if game is won
 function checkWin() {
   const totalPairs = gameBoard.children.length / 2;
+
   if (matches === totalPairs) {
+    stopTimer();
+    saveBestScore();
+
     setTimeout(() => {
-      winMessage.textContent = `🎉 You Won! Moves: ${moves}`;
+      winMessage.textContent =
+        `🎉 You Won! Moves: ${moves} | Time: ${formatTime(seconds)}`;
     }, 500);
   }
 }
 
-// Event listeners
-if (startBtn) {
-  startBtn.addEventListener("click", initGame);
-}
+/* ========================= */
+/* EVENT LISTENERS           */
+/* ========================= */
 
-if (restartBtn) {
-  restartBtn.addEventListener("click", initGame);
-}
+startBtn.addEventListener("click", initGame);
+restartBtn.addEventListener("click", initGame);
 
-if (difficultySelect) {
-  difficultySelect.addEventListener("change", () => {
-    if (gameStarted) {
-      initGame();
-    }
-  });
-}
+difficultySelect.addEventListener("change", () => {
+  if (gameStarted) {
+    initGame();
+  }
+});
+
+// Load best scores on page load
+loadBestScores();
+
+
 
 
 
