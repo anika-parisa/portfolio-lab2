@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.player {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.controls {
+  margin: 20px 0;
+}
+
+button {
+  font-size: 22px;
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background: #665643;
+  color: white;
+}
+
+button:hover {
+  background: #8b7355;
+}
+
+input[type="range"] {
+  width: 100%;
+}
