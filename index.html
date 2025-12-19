@@ -30,7 +30,7 @@
   <!-- Custom CSS File -->
    <link href="assets/css/custom.css" rel="stylesheet">
 
-   
+
   <!-- =======================================================
   * Template Name: My Portfolio
   * Template URL: https://bootstrapmade.com/snapfolio-bootstrap-portfolio-template/
@@ -431,15 +431,26 @@
       <button id="startGame" class="btn btn-primary me-2">Start Game</button>
       <button id="restartGame" class="btn btn-outline">Restart</button>
     </div>
-
+    
     <!-- Stats Panel -->
-    <div id="stats" class="text-center mb-4">
+     <div id="stats" class="text-center mb-4">
       <p style="font-size: 18px; margin-bottom: 10px;">
-        <strong>Moves:</strong> <span id="moves">0</span> | 
-        <strong>Matches:</strong> <span id="matches">0</span>
+        <strong>Moves:</strong> <span id="moves">0</span> |
+        <strong>Matches:</strong> <span id="matches">0</span> |
+        <strong>Time:</strong> <span id="timer">00:00</span>
       </p>
+      
+      <p>
+        <strong>Best (Easy):</strong> <span id="bestEasy">-</span>
+      </p>
+      
+      <p>
+        <strong>Best (Hard):</strong> <span id="bestHard">-</span>
+      </p>
+      
       <p id="winMessage" style="color: #28a745; font-size: 20px; font-weight: 700;"></p>
     </div>
+
 
     <!-- Game Board -->
     <div id="gameBoard" class="game-board"></div>
