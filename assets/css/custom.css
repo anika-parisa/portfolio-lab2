@@ -87,3 +87,173 @@ section {
     scroll-behavior: auto !important;
   }
 }
+
+/* Optional Task – Validation UI */
+
+.error-text {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.input-error {
+  border: 2px solid red !important;
+}
+
+.success-popup {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #28a745;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 9999;
+}
+
+/* ============================= */
+/* MEMORY GAME – LAB 12 STYLES   */
+/* ============================= */
+
+#memory-game {
+  margin-top: 60px;
+}
+
+.game-board {
+  display: grid;
+  gap: 15px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/* CARD */
+.card {
+  width: 100%;
+  height: 130px; /* KEY FIX */
+  perspective: 800px;
+  cursor: pointer;
+}
+
+/* INNER FLIP */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+/* ============================= */
+/* MEMORY GAME — LAB 12 STYLES   */
+/* ============================= */
+
+#memory-game {
+  padding: 60px 0;
+  background-color: var(--background-color);
+}
+
+.game-controls {
+  margin-bottom: 20px;
+}
+
+#stats {
+  background-color: var(--surface-color);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 86, 67, 0.15);
+}
+
+.game-board {
+  display: grid;
+  gap: 15px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(102, 86, 67, 0.15);
+}
+
+/* MEMORY CARD */
+.memory-card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+/* CARD INNER (for flip effect) */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+/* FLIPPED STATE */
+.memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* MATCHED STATE */
+.memory-card.matched .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* CARD FACES */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  font-size: 3rem;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* FRONT (hidden side with "?") */
+.card-front {
+  background: linear-gradient(135deg, #665643, #8b7355);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* BACK (revealed side with emoji) */
+.card-back {
+  background: linear-gradient(135deg, #f5f3f0, #e0ded9);
+  color: #333;
+  transform: rotateY(180deg);
+  border: 2px solid rgba(102, 86, 67, 0.3);
+}
+
+/* MATCHED CARDS - keep visible and slightly faded */
+.memory-card.matched {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Disable pointer on matched cards */
+.memory-card.matched .card-inner {
+  cursor: default;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .game-board {
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .card-front,
+  .card-back {
+    font-size: 2rem;
+  }
+}
