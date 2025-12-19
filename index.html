@@ -26,8 +26,11 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+   <link href="assets/css/main.css" rel="stylesheet">
+  <!-- Custom CSS File -->
+   <link href="assets/css/custom.css" rel="stylesheet">
 
+   
   <!-- =======================================================
   * Template Name: My Portfolio
   * Template URL: https://bootstrapmade.com/snapfolio-bootstrap-portfolio-template/
@@ -402,6 +405,48 @@
     </div>
 
 </section><!-- /Portfolio Section -->
+ 
+
+
+<!-- Memory Game Section -->
+<section id="memory-game" class="section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Memory Game</h2>
+    <p>Test your memory skills with this fun card matching game!</p>
+  </div>
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    
+    <!-- Difficulty Selector -->
+    <div class="game-controls mb-4 text-center">
+      <label for="difficulty" style="font-weight: 600; margin-right: 10px;">Difficulty:</label>
+      <select id="difficulty" class="form-select d-inline-block" style="width: auto;">
+        <option value="easy">Easy (3×4)</option>
+        <option value="hard">Hard (4×6)</option>
+      </select>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="game-controls mb-4 text-center">
+      <button id="startGame" class="btn btn-primary me-2">Start Game</button>
+      <button id="restartGame" class="btn btn-outline">Restart</button>
+    </div>
+
+    <!-- Stats Panel -->
+    <div id="stats" class="text-center mb-4">
+      <p style="font-size: 18px; margin-bottom: 10px;">
+        <strong>Moves:</strong> <span id="moves">0</span> | 
+        <strong>Matches:</strong> <span id="matches">0</span>
+      </p>
+      <p id="winMessage" style="color: #28a745; font-size: 20px; font-weight: 700;"></p>
+    </div>
+
+    <!-- Game Board -->
+    <div id="gameBoard" class="game-board"></div>
+    
+  </div>
+</section><!-- /Memory Game Section -->
+
 
     
 <!-- Services Section -->
@@ -524,40 +569,67 @@
           <div class="col-lg-7">
             <div class="contact-form">
               <h3>Get In Touch</h3>
-              <form id="contactForm" class="php-email-form">
-                <div class="row gy-4">
-                  <div class="col-md-6">
-                    <input type="text" id="name" class="form-control" placeholder="Name" required>
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" id="surname" class="form-control" placeholder="Surname" required>
-                  </div>
-                  <div class="col-md-6">
-                    <input type="email" id="email" class="form-control" placeholder="Email" required>
-                  </div>
-                  <div class="col-md-6">
-                    <input type="tel" id="phone" class="form-control" placeholder="Phone Number" required>
-                  </div>
-                  <div class="col-12">
-                    <input type="text" id="address" class="form-control" placeholder="Address" required>
-                  </div>
-                  <div class="col-md-4">
-                    <label>Rating 1 (1–10)</label>
-                    <input type="number" id="rating1" class="form-control" min="1" max="10" required>
-                  </div>
-                  <div class="col-md-4">
-                    <label>Rating 2 (1–10)</label>
-                    <input type="number" id="rating2" class="form-control" min="1" max="10" required>
-                  </div>
-                  <div class="col-md-4">
-                    <label>Rating 3 (1–10)</label>
-                    <input type="number" id="rating3" class="form-control" min="1" max="10" required>
-                  </div>
-                  <div class="col-12 text-center">
-                    <button type="submit" class="btn">Submit</button>
-                  </div>
-                </div>
-              </form>
+<form id="contactForm">
+
+  <div class="row gy-4">
+
+    <div class="col-md-6">
+      <input type="text" id="name" class="form-control" placeholder="Name">
+      <small class="error-text" id="nameError"></small>
+    </div>
+
+    <div class="col-md-6">
+      <input type="text" id="surname" class="form-control" placeholder="Surname">
+      <small class="error-text" id="surnameError"></small>
+    </div>
+
+    <div class="col-md-6">
+      <input type="email" id="email" class="form-control" placeholder="Email">
+      <small class="error-text" id="emailError"></small>
+    </div>
+
+    <div class="col-md-6">
+      <input type="text" id="phone" class="form-control" placeholder="+370 6xx xxxxx">
+    </div>
+
+    <div class="col-12">
+      <input type="text" id="address" class="form-control" placeholder="Address">
+      <small class="error-text" id="addressError"></small>
+    </div>
+
+    <div class="col-md-4">
+      <input type="number" id="rating1" class="form-control" placeholder="Rating 1 (1–10)">
+      <small class="error-text" id="rating1Error"></small>
+    </div>
+
+    <div class="col-md-4">
+      <input type="number" id="rating2" class="form-control" placeholder="Rating 2 (1–10)">
+      <small class="error-text" id="rating2Error"></small>
+    </div>
+
+    <div class="col-md-4">
+      <input type="number" id="rating3" class="form-control" placeholder="Rating 3 (1–10)">
+      <small class="error-text" id="rating3Error"></small>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="submit" id="submitBtn" class="btn" disabled>Submit</button>
+    </div>
+
+  </div>
+</form>
+
+<div id="formResult" class="mt-4"></div>
+
+<div id="successPopup" class="success-popup">
+  Form submitted successfully!
+</div>
+
+
+
+
+
+
               <div id="formResult" class="mt-4"></div>
 
             </div>
