@@ -5,6 +5,187 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+/* ========================= */
+/* MEMORY GAME — LAB 12      */
+/* ========================= */
+
+// Card data - 6 unique emojis (will be doubled automatically)
+const cardData = ["🎨", "🌟", "🍇", "🍓", "🍊", "🥝"];
+
+// Difficulty settings
+const difficultySettings = {
+  easy: { rows: 3, cols: 4 },  // 12 cards (6 pairs)
+  hard: { rows: 4, cols: 6 }   // 24 cards (12 pairs)
+};
+
+// Game state
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
+let moves = 0;
+let matches = 0;
+let gameStarted = false;
+
+// DOM elements
+const gameBoard = document.getElementById("gameBoard");
+const movesEl = document.getElementById("moves");
+const matchesEl = document.getElementById("matches");
+const winMessage = document.getElementById("winMessage");
+const startBtn = document.getElementById("startGame");
+const restartBtn = document.getElementById("restartGame");
+const difficultySelect = document.getElementById("difficulty");
+
+// Shuffle array
+function shuffle(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+// Initialize game
+function initGame() {
+  // Reset game state
+  gameBoard.innerHTML = "";
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+  moves = 0;
+  matches = 0;
+  gameStarted = true;
+
+  // Update UI
+  movesEl.textContent = "0";
+  matchesEl.textContent = "0";
+  winMessage.textContent = "";
+
+  // Get difficulty
+  const difficulty = difficultySelect.value;
+  const { rows, cols } = difficultySettings[difficulty];
+  const totalCards = rows * cols;
+
+  // Create card pairs
+  const pairsNeeded = totalCards / 2;
+  let gameCards = [];
+  
+  for (let i = 0; i < pairsNeeded; i++) {
+    const emoji = cardData[i % cardData.length];
+    gameCards.push(emoji, emoji); // Add pair
+  }
+
+  // Shuffle cards
+  gameCards = shuffle(gameCards);
+
+  // Set grid layout
+  gameBoard.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+  // Create card elements
+  gameCards.forEach(emoji => {
+    const card = document.createElement("div");
+    card.classList.add("memory-card");
+    card.dataset.value = emoji;
+
+    card.innerHTML = `
+      <div class="card-inner">
+        <div class="card-front">?</div>
+        <div class="card-back">${emoji}</div>
+      </div>
+    `;
+
+    card.addEventListener("click", flipCard);
+    gameBoard.appendChild(card);
+  });
+}
+
+// Flip card logic
+function flipCard() {
+  if (!gameStarted) return;
+  if (lockBoard) return;
+  if (this === firstCard) return;
+  if (this.classList.contains("matched")) return;
+
+  this.classList.add("flipped");
+
+  if (!firstCard) {
+    firstCard = this;
+    return;
+  }
+
+  secondCard = this;
+  moves++;
+  movesEl.textContent = moves;
+
+  checkMatch();
+}
+
+// Check if cards match
+function checkMatch() {
+  const isMatch = firstCard.dataset.value === secondCard.dataset.value;
+
+  if (isMatch) {
+    disableCards();
+    matches++;
+    matchesEl.textContent = matches;
+    checkWin();
+  } else {
+    unflipCards();
+  }
+}
+
+// Disable matched cards
+function disableCards() {
+  firstCard.classList.add("matched");
+  secondCard.classList.add("matched");
+  resetBoard();
+}
+
+// Unflip cards if no match
+function unflipCards() {
+  lockBoard = true;
+
+  setTimeout(() => {
+    firstCard.classList.remove("flipped");
+    secondCard.classList.remove("flipped");
+    resetBoard();
+  }, 1000);
+}
+
+// Reset board state
+function resetBoard() {
+  [firstCard, secondCard, lockBoard] = [null, null, false];
+}
+
+// Check if game is won
+function checkWin() {
+  const totalPairs = gameBoard.children.length / 2;
+  if (matches === totalPairs) {
+    setTimeout(() => {
+      winMessage.textContent = `🎉 You Won! Moves: ${moves}`;
+    }, 500);
+  }
+}
+
+// Event listeners
+if (startBtn) {
+  startBtn.addEventListener("click", initGame);
+}
+
+if (restartBtn) {
+  restartBtn.addEventListener("click", initGame);
+}
+
+if (difficultySelect) {
+  difficultySelect.addEventListener("change", () => {
+    if (gameStarted) {
+      initGame();
+    }
+  });
+}
+
+
+
 
 (function() {
   "use strict";
@@ -278,6 +459,62 @@ if (contactForm) {
         alert("Form submitted successfully!");
     contactForm.reset();
   });
+}
+function validateField(input, regex, errorEl, message) {
+  if (!regex.test(input.value)) {
+    input.classList.add("input-error");
+    errorEl.textContent = message;
+    return false;
+  } else {
+    input.classList.remove("input-error");
+    errorEl.textContent = "";
+    return true;
+  }
+}
+const submitBtn = document.getElementById("submitBtn");
+
+const nameInput = document.getElementById("name");
+const surnameInput = document.getElementById("surname");
+const emailInput = document.getElementById("email");
+const addressInput = document.getElementById("address");
+
+nameInput.addEventListener("input", () => {
+  validateField(nameInput, /^[A-Za-z]+$/, document.getElementById("nameError"), "Only letters allowed");
+  checkFormValidity();
+});
+
+surnameInput.addEventListener("input", () => {
+  validateField(surnameInput, /^[A-Za-z]+$/, document.getElementById("surnameError"), "Only letters allowed");
+  checkFormValidity();
+});
+
+emailInput.addEventListener("input", () => {
+  validateField(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, document.getElementById("emailError"), "Invalid email");
+  checkFormValidity();
+});
+
+addressInput.addEventListener("input", () => {
+  validateField(addressInput, /.+/, document.getElementById("addressError"), "Address required");
+  checkFormValidity();
+});
+const phoneInput = document.getElementById("phone");
+
+phoneInput.addEventListener("input", () => {
+  let value = phoneInput.value.replace(/\D/g, "");
+
+  if (value.startsWith("370")) value = value.slice(3);
+  value = value.slice(0, 8);
+
+  let formatted = "+370 ";
+  if (value.length > 1) {
+    formatted += value[0] + value.slice(1, 3) + " " + value.slice(3);
+  }
+
+  phoneInput.value = formatted;
+});
+function checkFormValidity() {
+  const errors = document.querySelectorAll(".input-error");
+  submitBtn.disabled = errors.length > 0;
 }
 
 
